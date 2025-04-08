@@ -42,7 +42,6 @@ public class Player : MonoBehaviour
         if (inputVec.x != 0)
         {
             spriteRenderer.flipX = inputVec.x < 0;
-            Debug.Log("dd");
         }
     }
 
