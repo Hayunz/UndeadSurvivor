@@ -1,4 +1,6 @@
+using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
 public class Enemy : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class Enemy : MonoBehaviour
     Animator animator;
     SpriteRenderer sprite;
 
-    private void Awake()
+    private void Awake() //초기화 잊지 말고 하기
     {
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -55,5 +57,28 @@ public class Enemy : MonoBehaviour
         speed= spawnData.speed;
         maxHealth = spawnData.health;
         health = spawnData.health;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Bullet"))
+            return;
+        health -= collision.GetComponent<Bullet>().damage;
+
+        if (health > 0)
+        {
+            //live, HitAction
+        }
+
+        else
+        {
+            //..die
+            Dead();
+        }
+    }
+
+    void Dead()
+    {
+        gameObject.SetActive(false); //오브젝트 풀링을 쓰고 있기 때문에 비활성화 한다.
     }
 }
