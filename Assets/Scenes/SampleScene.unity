@@ -165,8 +165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   prefabId: 1
-  damage: 11
-  count: 8
+  damage: 3
+  count: 3
   speed: 0
 --- !u!1 &194387456
 GameObject:
@@ -9717,7 +9717,7 @@ MonoBehaviour:
   id: 1
   prefabId: 2
   damage: 3
-  count: 1
+  count: 0
   speed: 0
 --- !u!1 &1238647504
 GameObject:
@@ -14579,6 +14579,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameTime: 0
   maxGameTime: 20
+  level: 0
+  kill: 0
+  exp: 0
+  nextExp: 03000000050000000a0000006400000096000000d20000001801000068010000c201000058020000
   pool: {fileID: 279110383}
   player: {fileID: 629812493}
 --- !u!4 &1755530011

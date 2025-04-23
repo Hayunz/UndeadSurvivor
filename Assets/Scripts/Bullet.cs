@@ -16,9 +16,9 @@ public class Bullet : MonoBehaviour
            this.damage = damage;
            this.per = per;
 
-        if(per > -1) //������ -1(����)���� ū �Ϳ� ���ؼ��� �ӵ� ����
+        if(per > -1)
         {
-            rigid.linearVelocity = dir*15f;
+            rigid.linearVelocity = dir * 15f;
         }
     }
 
@@ -28,9 +28,10 @@ public class Bullet : MonoBehaviour
             return;
 
         per--;
+
         if (per == -1)
         {
-            rigid.linearVelocity = Vector2.zero;
+            rigid.linearVelocity = Vector2.zero; //재활용할거기 때문에 초기화해야함.
             gameObject.SetActive(false);
         }
     }

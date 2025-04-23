@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem.Processors;
@@ -13,14 +14,18 @@ public class Enemy : MonoBehaviour
     bool isLive;
 
     Rigidbody2D rigid;
+    Collider2D coll;
     Animator animator;
     SpriteRenderer sprite;
+    WaitForFixedUpdate wait;
 
     private void Awake() //초기화 잊지 말고 하기
     {
         rigid = GetComponent<Rigidbody2D>();
+        coll = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        wait = new WaitForFixedUpdate();
     }
     void Start()
     {
@@ -28,7 +33,7 @@ public class Enemy : MonoBehaviour
     }
     void FixedUpdate() //물리 효과가 적용된 오브젝트를 조정할때 사용
     {
-        if (!isLive) //아니라면, 아래거 실행시키지 말고 그냥 이 함수 나가요라는 뜻
+        if (!isLive || animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) //아니라면, 아래거 실행시키지 말고 그냥 이 함수 나가요라는 뜻
             return;
   
         Vector2 dirVec = target.position - rigid.position;
@@ -48,6 +53,10 @@ public class Enemy : MonoBehaviour
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
         isLive = true;
+        coll.enabled = true;
+        rigid.simulated = true;
+        sprite.sortingOrder = 2;
+        animator.SetBool("Dead", false);
         health = maxHealth;
     }
 
@@ -61,20 +70,39 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet"))
+        if (!collision.CompareTag("Bullet") || !isLive)
             return;
         health -= collision.GetComponent<Bullet>().damage;
+        StartCoroutine(KnockBack());
 
         if (health > 0)
         {
             //live, HitAction
+            animator.SetTrigger("Hit");
         }
 
         else
         {
-            //..die
-            Dead();
+            isLive = false;
+            coll.enabled = false;
+            rigid.simulated = false;
+            sprite.sortingOrder = 1;
+            animator.SetBool("Dead", true);
+            GameManager.instance.kill++;
+            GameManager.instance.GetExp();
         }
+    }
+
+    IEnumerator KnockBack()
+    {
+        yield return wait; //1프레임 쉬기, 하나의 물리 프레임을 딜레이 주기
+        Vector3 playerPos = GameManager.instance.player.transform.position;
+        Vector3 dirVec = transform.position - playerPos;
+        rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+
+
+
+        //yield return new WaitForSeconds(2f); // 2초 쉬기 최적화때 안좋을 수 있어서 보통 변수로 만든다.
     }
 
     void Dead()
