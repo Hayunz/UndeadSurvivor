@@ -25,7 +25,7 @@ public class PoolManager : MonoBehaviour
 
     public GameObject Get(int index)
     {
-        GameObject select = null; //게임 오브젝트 지역변수와 리턴을 미리 작성
+        GameObject select = null; //게임 오브젝트 지역 변수와 리턴을 미리 작성
 
         //선택한 풀의 놀고 (비활성화 된) 있는 게임 오브젝트 접근
         foreach (GameObject item in pools[index])
