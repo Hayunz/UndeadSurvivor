@@ -82,9 +82,14 @@ public class Weapon : MonoBehaviour
                 break;
 
             default:
-                speed = 0.3f; //연사속도를 의미 :적을 수록 많이 발사
+                speed = 0.4f; //연사속도를 의미 :적을 수록 많이 발사
                 break;
         }
+
+        //hand set
+        Hand hand = player.hands[(int)data.itemType]; //enum 값 앞에 int 타입을 작성하여 강제 형변환
+        hand.spriter.sprite = data.hand;
+        hand.gameObject.SetActive(true);
 
         player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
     }
