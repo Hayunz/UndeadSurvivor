@@ -18,12 +18,12 @@ MonoBehaviour:
   itemDesc: 
   itemIcon: {fileID: -205726582, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   baseDamage: 3
-  baseCount: 0
+  baseCount: 3
   damages:
   - 0.35
   - 0.7
   - 1
   - 1.4
   - 2
-  counts: 0100000001000000020000000300000004000000
+  counts: 0200000002000000020000000300000004000000
   projectile: {fileID: 7071969510319844108, guid: 1c9a3d47bfc9cba4f8be3c3502e7bfac, type: 3}

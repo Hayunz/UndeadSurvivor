@@ -13,13 +13,9 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponentInParent<Player>(); // 부모 오브젝트의 컴포넌트도 가져올 수 있다.
+        player = GameManager.instance.player;
     }
 
-    private void Start()
-    {
-        Init();
-    }
     private void Update()
     {
         switch (id)
@@ -54,8 +50,28 @@ public class Weapon : MonoBehaviour
             Batch();
             
     }
-    public void Init()
+    public void Init(ItemData data)
     {
+        // Basic Set
+        name = "Weapon " + data.itemId;
+        transform.parent = player.transform;
+        transform.localPosition = Vector3.zero;
+
+        //Property set
+        id = data.itemId;
+        damage = data.baseDamage;
+        count = data.baseCount;
+
+        for (int index = 0; index < GameManager.instance.pool.prefabs.Length; index++)
+        {
+            if(data.projectile == GameManager.instance.pool.prefabs[index])
+            {
+                prefabId = index;
+                break;
+            }
+        }
+
+
         switch (id)
         {
             case 0:
@@ -109,7 +125,7 @@ public class Weapon : MonoBehaviour
 
         Vector3 targetPos = player.scanner.nearestTarget.position;
         Vector3 dir = targetPos-transform.position;
-        dir = dir.normalized; //현재 벡터의 방향은 유지하고 크기를 1로 변환된 속성
+        //dir = dir.normalized; //현재 벡터의 방향은 유지하고 크기를 1로 변환된 속성
 
         Transform bullet = GameManager.instance.pool.Get(prefabId).transform;
         bullet.position = transform.position;
