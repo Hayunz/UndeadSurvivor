@@ -48,7 +48,8 @@ public class Weapon : MonoBehaviour
 
         if (id == 0)
             Batch();
-            
+
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver); //초기화, 레벨업 함수 마지막 부분에서 호출
     }
     public void Init(ItemData data)
     {
@@ -84,6 +85,8 @@ public class Weapon : MonoBehaviour
                 speed = 0.3f; //연사속도를 의미 :적을 수록 많이 발사
                 break;
         }
+
+        player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
     }
 
     void Batch()
@@ -125,7 +128,7 @@ public class Weapon : MonoBehaviour
 
         Vector3 targetPos = player.scanner.nearestTarget.position;
         Vector3 dir = targetPos-transform.position;
-        //dir = dir.normalized; //현재 벡터의 방향은 유지하고 크기를 1로 변환된 속성
+        dir = dir.normalized; //현재 벡터의 방향은 유지하고 크기를 1로 변환된 속성
 
         Transform bullet = GameManager.instance.pool.Get(prefabId).transform;
         bullet.position = transform.position;
