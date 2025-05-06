@@ -16,6 +16,11 @@ public class Spawner : MonoBehaviour
     }
     private void Update()
     {
+        if (!GameManager.instance.isLive)
+        {
+            return;
+        }
+
         timer += Time.deltaTime;
         level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 10f), spawnData.Length -1);
         //FloorToInt: 소수점 아래는 버리고 Int형으로 바꾸는 함수

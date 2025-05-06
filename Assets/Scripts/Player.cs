@@ -26,6 +26,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.instance.isLive)
+        {
+            return;
+        }
         inputVec.x=Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
     }
@@ -34,7 +38,11 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-            Vector2 nextVec = inputVec.normalized * Time.fixedDeltaTime*speed;
+        if (!GameManager.instance.isLive)
+        {
+            return;
+        }
+        Vector2 nextVec = inputVec.normalized * Time.fixedDeltaTime*speed;
             rigid.MovePosition (rigid.position + nextVec);
             
     }
