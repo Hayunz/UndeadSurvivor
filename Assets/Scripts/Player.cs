@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public float speed;
     public Scanner scanner;
     public Hand[] hands;
+    public RuntimeAnimatorController[] anicontroller;
 
     public Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
@@ -22,6 +23,12 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         scanner = GetComponent<Scanner>();
         hands = GetComponentsInChildren<Hand>(true);  //인자 값 true를 넣으면 비활성화 된 오브젝트도 OK
+    }
+
+    private void OnEnable()
+    {
+        speed *= Character.Speed;
+        animator.runtimeAnimatorController = anicontroller[GameManager.instance.playerId];
     }
 
     private void Update()
